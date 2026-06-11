@@ -24,16 +24,24 @@ export default function Reveal({ children, delay = 0, mode = 'mask', className }
       </motion.div>
     )
   }
+  // Observe the wrapper, not the clipped child: a span translated 112% inside
+  // overflow:hidden has zero intersection area, so whileInView on it would
+  // never fire. Variants propagate the trigger downward instead.
   return (
-    <span className={`reveal-line ${className ?? ''}`}>
+    <motion.span
+      className={`reveal-line ${className ?? ''}`}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-10% 0px' }}
+    >
       <motion.span
-        initial={{ y: '112%' }}
-        whileInView={{ y: 0 }}
-        viewport={{ once: true, margin: '-10% 0px' }}
-        transition={{ duration: 1.05, delay, ease: [0.16, 1, 0.3, 1] }}
+        variants={{
+          hidden: { y: '112%' },
+          visible: { y: 0, transition: { duration: 1.05, delay, ease: [0.16, 1, 0.3, 1] } },
+        }}
       >
         {children}
       </motion.span>
-    </span>
+    </motion.span>
   )
 }

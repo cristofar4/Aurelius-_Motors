@@ -288,10 +288,10 @@ function ConceptCar({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
       wing.current.position.x = e * -0.45
     }
     if (engine.current) {
-      engine.current.position.set(-1.05 - e * 0.55, 0.46 + e * 0.95, 0)
+      engine.current.position.set(-1.05 - e * 0.95, 0.46 + e * 0.7, 0)
       engine.current.rotation.y = e * 0.7
     }
-    if (chassis.current) chassis.current.position.y = 0.2 - e * 1.05
+    if (chassis.current) chassis.current.position.y = 0.2 - e * 0.85
     if (splitter.current) splitter.current.position.set(2.12 + e * 0.5, 0.12 - e * 0.62, 0)
     if (diffuser.current) diffuser.current.position.set(-2.12 - e * 0.5, 0.16 - e * 0.62, 0)
 
@@ -408,12 +408,13 @@ function Rig({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
     const e = explodeOf(p)
     const camera = cam.current
     if (!camera) return
-    camera.position.x = THREE.MathUtils.damp(camera.position.x, 5.2 + mx * 0.9, 4, dt)
-    camera.position.y = THREE.MathUtils.damp(camera.position.y, 1.7 + e * 1.15 + my * 0.5, 4, dt)
-    camera.position.z = THREE.MathUtils.damp(camera.position.z, 5.6 - e * 0.4, 4, dt)
-    camera.lookAt(0, 0.18 + e * 0.32, 0)
+    // dolly out and rise as the car comes apart, so the full stack stays framed
+    camera.position.x = THREE.MathUtils.damp(camera.position.x, 5.6 + mx * 0.9, 4, dt)
+    camera.position.y = THREE.MathUtils.damp(camera.position.y, 1.85 + e * 1.5 + my * 0.5, 4, dt)
+    camera.position.z = THREE.MathUtils.damp(camera.position.z, 6.3 + e * 1.1, 4, dt)
+    camera.lookAt(0, 0.22 + e * 0.5, 0)
   })
-  return <PerspectiveCamera ref={cam} makeDefault fov={31} position={[5.2, 1.7, 5.6]} near={0.1} far={60} />
+  return <PerspectiveCamera ref={cam} makeDefault fov={31} position={[5.6, 1.85, 6.3]} near={0.1} far={60} />
 }
 
 export default function AureliusScene({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {

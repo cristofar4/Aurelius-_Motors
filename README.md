@@ -52,3 +52,15 @@ poster. Stills carry a verified fallback asset. The page never shows a broken fr
 - Below-fold videos use `preload="metadata"` + IntersectionObserver play/pause
 - Responsive `srcset` for all Unsplash imagery; `preconnect` to media CDNs
 - `prefers-reduced-motion` swaps pinned cinematics for calm editorial layouts
+
+## Visual verification
+
+`verify-visual.mjs` drives the production build through real Chromium — walks every
+scroll chapter, exercises hover states, screenshots each section to `/tmp/aurelius-shots`,
+and reports console/page errors. It needs Playwright (not a project dependency):
+
+```bash
+npm i --no-save playwright && npx playwright install chromium
+npm run build && npm run preview &   # serves on :4848
+node verify-visual.mjs
+```
