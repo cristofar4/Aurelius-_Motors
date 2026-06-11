@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 
-const LINE: { text: string; gold?: boolean }[] = [
+const LINE: { text: string; accent?: boolean }[] = [
   { text: 'We' },
   { text: 'do' },
   { text: 'not' },
@@ -8,7 +8,7 @@ const LINE: { text: string; gold?: boolean }[] = [
   { text: 'cars.' },
   { text: 'We' },
   { text: 'compose' },
-  { text: 'motion', gold: true },
+  { text: 'motion', accent: true },
   { text: '—' },
   { text: 'one' },
   { text: 'machine' },
@@ -34,7 +34,7 @@ export default function Manifesto() {
           {LINE.map((word, i) => (
             <motion.span
               key={i}
-              className={`word ${word.gold ? 'gold' : ''}`}
+              className={`word ${word.accent ? 'accent' : ''}`}
               initial={{ opacity: 0.08, y: 14, filter: 'blur(5px)' }}
               whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               viewport={{ once: true, margin: '-18% 0px' }}

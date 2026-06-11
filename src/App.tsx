@@ -16,6 +16,8 @@ import SpecsSection from './components/SpecsSection'
 import Atelier from './components/Atelier'
 import FinalCta from './components/FinalCta'
 import Footer from './components/Footer'
+import PrecisionCursor from './components/ui/PrecisionCursor'
+import LightField from './components/ui/LightField'
 
 const LenisContext = createContext<Lenis | null>(null)
 // eslint-disable-next-line react-refresh/only-export-components
@@ -58,6 +60,8 @@ export default function App() {
     <LenisContext.Provider value={lenis}>
       <Preloader onDone={handleBooted} />
       <div className="grain" aria-hidden="true" />
+      <LightField />
+      <PrecisionCursor />
       <Navbar />
       <main>
         <Hero interactive={booted} />

@@ -35,12 +35,12 @@ const PHASES = [
   {
     idx: 'Phase 02 — Powertrain',
     title: 'The V12, laid bare.',
-    copy: '6.6 litres, 9,200 rpm, gold-bathed plenum. Every internal is balanced by hand to a tenth of a gram.',
+    copy: '6.6 litres, 9,200 rpm, a machined-alloy plenum. Every internal is balanced by hand to a tenth of a gram.',
   },
   {
     idx: 'Phase 03 — Suspension',
     title: 'Geometry as philosophy.',
-    copy: 'Inboard pushrods and gold-wound springs read the road two hundred times a second — and answer politely.',
+    copy: 'Inboard pushrods and racing-blue coil springs read the road two hundred times a second — and answer politely.',
   },
   {
     idx: 'Phase 04 — Assembly',

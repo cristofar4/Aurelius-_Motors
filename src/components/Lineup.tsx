@@ -36,6 +36,7 @@ function TiltCard({ car, index }: { car: CarModel; index: number }) {
     <motion.div
       ref={ref}
       className="tilt-card"
+      data-hover
       style={{ ...accentVar, ...(reduced ? {} : { rotateX, rotateY, transformPerspective: 1000 }) }}
       onMouseMove={onMove}
       onMouseLeave={onLeave}

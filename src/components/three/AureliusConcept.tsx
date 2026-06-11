@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
-import { ContactShadows, Environment, Lightformer, PerspectiveCamera } from '@react-three/drei'
+import { ContactShadows, Environment, Lightformer, MeshReflectorMaterial, PerspectiveCamera } from '@react-three/drei'
 import { explodeOf, smooth, type SceneDrive } from './explode'
 
 /* ------------------------------------------------------------------ */
@@ -18,17 +18,34 @@ function useMaterials() {
       clearcoatRoughness: 0.08,
       envMapIntensity: 1.5,
     })
-    const gold = new THREE.MeshStandardMaterial({
-      color: '#c8a45c',
+    const alloy = new THREE.MeshStandardMaterial({
+      color: '#c9ced6',
       metalness: 1,
-      roughness: 0.28,
+      roughness: 0.3,
       envMapIntensity: 1.4,
     })
-    const goldBright = new THREE.MeshStandardMaterial({
-      color: '#e3c98e',
+    const polished = new THREE.MeshStandardMaterial({
+      color: '#eef1f5',
       metalness: 1,
-      roughness: 0.18,
-      envMapIntensity: 1.6,
+      roughness: 0.14,
+      envMapIntensity: 1.7,
+    })
+    const springBlue = new THREE.MeshStandardMaterial({
+      color: '#2f6bff',
+      metalness: 0.55,
+      roughness: 0.38,
+      envMapIntensity: 1.2,
+    })
+    const caliperRed = new THREE.MeshStandardMaterial({
+      color: '#d63a2c',
+      metalness: 0.35,
+      roughness: 0.42,
+    })
+    const anodized = new THREE.MeshStandardMaterial({
+      color: '#3f7eff',
+      metalness: 0.9,
+      roughness: 0.3,
+      envMapIntensity: 1.4,
     })
     const darkMetal = new THREE.MeshStandardMaterial({
       color: '#1d1d23',
@@ -50,16 +67,16 @@ function useMaterials() {
     })
     const tire = new THREE.MeshStandardMaterial({ color: '#0b0b0c', roughness: 0.94, metalness: 0 })
     const headlight = new THREE.MeshStandardMaterial({
-      color: '#fff7e2',
-      emissive: '#ffeec2',
-      emissiveIntensity: 4,
+      color: '#f2f8ff',
+      emissive: '#dcecff',
+      emissiveIntensity: 4.5,
     })
     const taillight = new THREE.MeshStandardMaterial({
       color: '#3a0a06',
       emissive: '#ff2417',
       emissiveIntensity: 3,
     })
-    return { paint, gold, goldBright, darkMetal, carbon, glass, tire, headlight, taillight }
+    return { paint, alloy, polished, springBlue, caliperRed, anodized, darkMetal, carbon, glass, tire, headlight, taillight }
   }, [])
 }
 
@@ -146,18 +163,18 @@ function Wheel({ mats }: { mats: ReturnType<typeof useMaterials> }) {
         <cylinderGeometry args={[0.19, 0.19, 0.05, 28]} />
       </mesh>
       {spokes.map((angle) => (
-        <mesh key={angle} material={mats.gold} rotation-z={angle} position={[0, 0, 0.03]}>
+        <mesh key={angle} material={mats.alloy} rotation-z={angle} position={[0, 0, 0.03]}>
           <boxGeometry args={[0.05, 0.4, 0.035]} />
         </mesh>
       ))}
-      <mesh material={mats.goldBright} rotation-x={Math.PI / 2} position={[0, 0, 0.05]}>
+      <mesh material={mats.polished} rotation-x={Math.PI / 2} position={[0, 0, 0.05]}>
         <cylinderGeometry args={[0.055, 0.055, 0.07, 20]} />
       </mesh>
       {/* brake disc + caliper */}
       <mesh material={mats.darkMetal} rotation-x={Math.PI / 2} position={[0, 0, -0.09]}>
         <cylinderGeometry args={[0.18, 0.18, 0.025, 32]} />
       </mesh>
-      <mesh material={mats.gold} position={[0.13, 0.12, -0.09]} rotation-z={-0.7}>
+      <mesh material={mats.caliperRed} position={[0.13, 0.12, -0.09]} rotation-z={-0.7}>
         <boxGeometry args={[0.09, 0.16, 0.06]} />
       </mesh>
     </group>
@@ -170,10 +187,10 @@ function Engine({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       <mesh material={mats.darkMetal}>
         <boxGeometry args={[0.64, 0.34, 0.5]} />
       </mesh>
-      <mesh material={mats.gold} position={[0, 0.2, 0.16]} rotation-x={0.24}>
+      <mesh material={mats.alloy} position={[0, 0.2, 0.16]} rotation-x={0.24}>
         <boxGeometry args={[0.6, 0.08, 0.17]} />
       </mesh>
-      <mesh material={mats.gold} position={[0, 0.2, -0.16]} rotation-x={-0.24}>
+      <mesh material={mats.alloy} position={[0, 0.2, -0.16]} rotation-x={-0.24}>
         <boxGeometry args={[0.6, 0.08, 0.17]} />
       </mesh>
       <mesh material={mats.darkMetal} position={[0, 0.32, 0]} rotation-x={Math.PI / 2}>
@@ -181,10 +198,10 @@ function Engine({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       </mesh>
       {[-0.22, -0.09, 0.04, 0.17].map((x) => (
         <group key={x}>
-          <mesh material={mats.goldBright} position={[x, 0.42, 0.1]}>
+          <mesh material={mats.polished} position={[x, 0.42, 0.1]}>
             <cylinderGeometry args={[0.032, 0.026, 0.1, 12]} />
           </mesh>
-          <mesh material={mats.goldBright} position={[x, 0.42, -0.1]}>
+          <mesh material={mats.polished} position={[x, 0.42, -0.1]}>
             <cylinderGeometry args={[0.032, 0.026, 0.1, 12]} />
           </mesh>
         </group>
@@ -203,7 +220,7 @@ function Engine({ mats }: { mats: ReturnType<typeof useMaterials> }) {
 function SuspensionCorner({ mats, springGeo }: { mats: ReturnType<typeof useMaterials>; springGeo: THREE.TubeGeometry }) {
   return (
     <group>
-      <mesh geometry={springGeo} material={mats.gold} />
+      <mesh geometry={springGeo} material={mats.springBlue} />
       <mesh material={mats.darkMetal}>
         <cylinderGeometry args={[0.026, 0.026, 0.3, 12]} />
       </mesh>
@@ -272,7 +289,7 @@ function ConceptCar({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
     s.my = THREE.MathUtils.damp(s.my, my, 4.4, dt)
 
     const e = s.e
-    const sweep = -0.62 + p * 3.9 + Math.sin(three.clock.elapsedTime * 0.16) * 0.05
+    const sweep = -0.62 + p * Math.PI * 2 + Math.sin(three.clock.elapsedTime * 0.16) * 0.05
 
     if (root.current) {
       root.current.rotation.y = THREE.MathUtils.damp(root.current.rotation.y, sweep + s.mx * 0.5, 5.6, dt)
@@ -352,7 +369,7 @@ function ConceptCar({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
         <mesh material={mats.carbon} position={[-2.05, 0.88, 0]} rotation-z={0.16}>
           <boxGeometry args={[0.34, 0.026, 1.58]} />
         </mesh>
-        <mesh material={mats.gold} position={[-2.18, 0.84, 0]} rotation-z={0.16}>
+        <mesh material={mats.anodized} position={[-2.18, 0.84, 0]} rotation-z={0.16}>
           <boxGeometry args={[0.04, 0.02, 1.58]} />
         </mesh>
       </group>
@@ -424,28 +441,41 @@ export default function AureliusScene({ drive }: { drive: React.MutableRefObject
       <ambientLight intensity={0.25} />
       <spotLight position={[6, 9, 4]} angle={0.5} penumbra={0.8} intensity={120} color="#fff2da" castShadow={false} />
       <spotLight position={[-7, 4, -6]} angle={0.6} penumbra={1} intensity={60} color="#8aa2ff" />
-      <spotLight position={[-5, 2, 7]} angle={0.7} penumbra={1} intensity={36} color="#ff5d3a" />
+      <spotLight position={[-5, 2, 7]} angle={0.7} penumbra={1} intensity={26} color="#ffd9c2" />
 
       <ConceptCar drive={drive} />
 
-      {/* stage */}
+      {/* stage — mirror-polished showroom floor */}
       <mesh rotation-x={-Math.PI / 2} position={[0, -0.435, 0]}>
-        <circleGeometry args={[4.4, 64]} />
-        <meshStandardMaterial color="#0b0b0e" roughness={0.85} metalness={0.4} />
+        <circleGeometry args={[5.6, 72]} />
+        <MeshReflectorMaterial
+          blur={[240, 80]}
+          resolution={512}
+          mixBlur={0.85}
+          mixStrength={1.25}
+          mirror={0.5}
+          roughness={0.85}
+          depthScale={0.45}
+          minDepthThreshold={0.4}
+          maxDepthThreshold={1.2}
+          color="#06080b"
+          metalness={0.25}
+          envMapIntensity={0.35}
+        />
       </mesh>
       <mesh rotation-x={-Math.PI / 2} position={[0, -0.428, 0]}>
         <ringGeometry args={[3.35, 3.38, 96]} />
-        <meshBasicMaterial color="#c8a45c" transparent opacity={0.32} />
+        <meshBasicMaterial color="#4f8eff" transparent opacity={0.3} />
       </mesh>
       <ContactShadows position={[0, -0.43, 0]} opacity={0.62} scale={13} blur={2.4} far={3.4} resolution={512} color="#000000" />
 
       <Environment resolution={256} frames={1}>
         <Lightformer intensity={5} position={[0, 4, 0]} rotation-x={Math.PI / 2} scale={[9, 4, 1]} color="#fff4dd" />
-        <Lightformer intensity={3} position={[-5, 1.6, 3.5]} rotation-y={Math.PI / 3.2} scale={[4.5, 1.1, 1]} color="#c8a45c" />
+        <Lightformer intensity={3} position={[-5, 1.6, 3.5]} rotation-y={Math.PI / 3.2} scale={[4.5, 1.1, 1]} color="#9cc0ff" />
         <Lightformer intensity={3} position={[5, 1.4, -3.5]} rotation-y={-Math.PI / 3.2} scale={[4.5, 1.1, 1]} color="#93acff" />
         <Lightformer intensity={1.6} position={[0, 1.2, 5.4]} scale={[7, 2.2, 1]} color="#ffffff" />
         <Lightformer intensity={1.1} position={[0, 0.6, -5.6]} rotation-y={Math.PI} scale={[7, 1.6, 1]} color="#f2efe9" />
-        <Lightformer intensity={1.3} position={[-5.4, 0.7, 1.8]} rotation-y={Math.PI / 2.4} scale={[3.4, 0.9, 1]} color="#ff7a45" />
+        <Lightformer intensity={1.2} position={[-5.4, 0.7, 1.8]} rotation-y={Math.PI / 2.4} scale={[3.4, 0.9, 1]} color="#ffe2c8" />
       </Environment>
     </>
   )

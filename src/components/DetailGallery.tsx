@@ -66,7 +66,7 @@ export default function DetailGallery() {
         </div>
         <motion.div className="gallery__track" ref={trackRef} style={{ x }}>
           {PANELS.map((panel) => (
-            <figure className="gallery__panel" key={panel.cap}>
+            <figure className="gallery__panel" key={panel.cap} data-hover>
               <SmartImage
                 asset={panel.asset}
                 fallback={IMG.interiorDetail}

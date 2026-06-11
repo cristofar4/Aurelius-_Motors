@@ -49,6 +49,7 @@ export default function Atelier() {
             <motion.figure
               className={`atelier__cell ${cell.cls}`}
               key={cell.cap}
+              data-hover
               initial={{ opacity: 0, y: 56 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-6% 0px' }}
