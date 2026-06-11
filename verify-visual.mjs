@@ -10,29 +10,40 @@
 import { chromium } from 'playwright'
 import { mkdirSync } from 'node:fs'
 
-const BASE = 'http://localhost:4848/'
+const BASE = process.env.PREVIEW_URL ?? 'http://localhost:4848/'
 const OUT = '/tmp/aurelius-shots'
 mkdirSync(OUT, { recursive: true })
 
-const standIn = (label) => `<?xml version="1.0"?>
+// hue derived from the photo id, so screenshots preview the page's colour
+// rhythm even though the real photographs can't load inside the sandbox
+const hueOf = (s) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7)
+const standIn = (label) => {
+  const h = hueOf(label)
+  return `<?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
   <defs>
-    <radialGradient id="g" cx="50%" cy="62%" r="75%">
-      <stop offset="0%" stop-color="#23232c"/>
-      <stop offset="55%" stop-color="#121217"/>
-      <stop offset="100%" stop-color="#08080a"/>
+    <radialGradient id="g" cx="50%" cy="62%" r="80%">
+      <stop offset="0%" stop-color="hsl(${h}, 48%, 30%)"/>
+      <stop offset="52%" stop-color="hsl(${(h + 24) % 360}, 42%, 15%)"/>
+      <stop offset="100%" stop-color="hsl(${h}, 30%, 6%)"/>
     </radialGradient>
+    <linearGradient id="s" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="hsl(${(h + 40) % 360}, 70%, 55%)" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="hsl(${h}, 70%, 45%)" stop-opacity="0.1"/>
+    </linearGradient>
   </defs>
   <rect width="1600" height="1000" fill="url(#g)"/>
+  <ellipse cx="800" cy="300" rx="700" ry="220" fill="hsl(${(h + 50) % 360}, 60%, 52%)" opacity="0.16"/>
   <path d="M300 640 q120 -110 360 -120 q150 -60 330 -55 q200 6 290 80 q120 18 150 95 l-40 18 q-490 30 -1050 8 z"
-        fill="#1c1c24" stroke="#c8a45c" stroke-opacity="0.35" stroke-width="3"/>
-  <circle cx="520" cy="668" r="58" fill="#0c0c0e" stroke="#c8a45c" stroke-opacity="0.5" stroke-width="6"/>
-  <circle cx="1150" cy="668" r="58" fill="#0c0c0e" stroke="#c8a45c" stroke-opacity="0.5" stroke-width="6"/>
+        fill="hsl(${h}, 22%, 12%)" stroke="url(#s)" stroke-width="4"/>
+  <circle cx="520" cy="668" r="58" fill="#0c0c0e" stroke="#c8a45c" stroke-opacity="0.6" stroke-width="6"/>
+  <circle cx="1150" cy="668" r="58" fill="#0c0c0e" stroke="#c8a45c" stroke-opacity="0.6" stroke-width="6"/>
   <text x="800" y="850" text-anchor="middle" font-family="Georgia, serif" font-size="30"
-        fill="#c8a45c" opacity="0.8">media stand-in — CDN blocked in sandbox</text>
+        fill="#e9d7ae" opacity="0.85">media stand-in — real photo loads outside sandbox</text>
   <text x="800" y="895" text-anchor="middle" font-family="Georgia, serif" font-size="22"
-        fill="#f2efe9" opacity="0.45">${label}</text>
+        fill="#f2efe9" opacity="0.5">${label}</text>
 </svg>`
+}
 
 const errors = []
 const browser = await chromium.launch({ args: ['--enable-unsafe-swiftshader'] })
@@ -77,17 +88,23 @@ const scrollTo = async (y, settle = 1400) => {
   await page.waitForTimeout(settle)
 }
 
+// scroll so a pinned section sits at exact scroll-progress p (0–1),
+// matching framer's ['start start','end end'] offset math
+const scrollToProgress = async (sel, p, settle = 1400) => {
+  const top = await sectionTop(sel)
+  const h = await sectionHeight(sel)
+  await scrollTo(top + p * (h - 900), settle)
+}
+
 await shot('01-hero')
 
-const showTop = await sectionTop('.showcase')
-const showH = await sectionHeight('.showcase')
-await scrollTo(showTop + showH * 0.1)
+await scrollToProgress('.showcase', 0.06)
 await shot('02-showcase-approach')
-await scrollTo(showTop + showH * 0.38)
+await scrollToProgress('.showcase', 0.34)
 await shot('03-showcase-day')
-await scrollTo(showTop + showH * 0.6)
+await scrollToProgress('.showcase', 0.58)
 await shot('04-showcase-dusk')
-await scrollTo(showTop + showH * 0.88)
+await scrollToProgress('.showcase', 0.85)
 await shot('05-showcase-night')
 
 await scrollTo((await sectionTop('#lineup')) - 60)
@@ -101,23 +118,19 @@ if (card) {
   await shot('07-lineup-tilt')
 }
 
-const engTop = await sectionTop('#engineering')
-const engH = await sectionHeight('#engineering')
-await scrollTo(engTop + engH * 0.05, 2600) // let the three.js chunk load + compile
+await scrollToProgress('#engineering', 0.05, 2600) // let the three.js chunk load + compile
 await shot('08-engineering-intro')
-await scrollTo(engTop + engH * 0.3, 2000)
+await scrollToProgress('#engineering', 0.3, 2000)
 await shot('09-engineering-exploding')
-await scrollTo(engTop + engH * 0.5, 2000)
+await scrollToProgress('#engineering', 0.5, 2000)
 await shot('10-engineering-exploded')
-await scrollTo(engTop + engH * 0.93, 2000)
+await scrollToProgress('#engineering', 0.95, 2000)
 await shot('11-engineering-reassembled')
 
 await scrollTo((await sectionTop('#interior')) - 40)
 await shot('12-interior')
 
-const galTop = await sectionTop('.gallery')
-const galH = await sectionHeight('.gallery')
-await scrollTo(galTop + galH * 0.55, 1800)
+await scrollToProgress('.gallery', 0.55, 1800)
 await shot('13-gallery')
 
 await scrollTo((await sectionTop('#night')) - 30)

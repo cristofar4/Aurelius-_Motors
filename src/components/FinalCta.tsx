@@ -13,7 +13,7 @@ export default function FinalCta() {
   return (
     <section id="commission" className="finale" ref={ref}>
       <motion.div className="finale__bg" style={{ y }}>
-        <SmartImage asset={IMG.nightJaguar} fallback={IMG.lineupGT} width={2200} eager={false} sizes="100vw" />
+        <SmartImage asset={IMG.ferrariRed} fallback={IMG.lineupGT} width={2200} eager={false} sizes="100vw" />
       </motion.div>
       <div className="finale__scrim" />
       <div className="container finale__content">

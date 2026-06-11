@@ -27,9 +27,9 @@ export default function App() {
 
   useEffect(() => {
     const instance = new Lenis({
-      lerp: 0.09,
+      lerp: 0.12,
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 1.05,
     })
     let frame = 0
     const loop = (time: number) => {

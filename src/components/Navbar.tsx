@@ -34,7 +34,7 @@ export default function Navbar() {
         className={`nav ${solid ? 'nav--solid' : ''}`}
         initial={{ y: -90 }}
         animate={{ y: 0 }}
-        transition={{ delay: 2.6, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ delay: 1.45, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="container nav__inner">
           <button className="nav__logo" onClick={() => go('#top')} aria-label="Aurelius Motors — home">

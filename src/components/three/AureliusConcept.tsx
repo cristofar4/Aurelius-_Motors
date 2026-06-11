@@ -424,6 +424,7 @@ export default function AureliusScene({ drive }: { drive: React.MutableRefObject
       <ambientLight intensity={0.25} />
       <spotLight position={[6, 9, 4]} angle={0.5} penumbra={0.8} intensity={120} color="#fff2da" castShadow={false} />
       <spotLight position={[-7, 4, -6]} angle={0.6} penumbra={1} intensity={60} color="#8aa2ff" />
+      <spotLight position={[-5, 2, 7]} angle={0.7} penumbra={1} intensity={36} color="#ff5d3a" />
 
       <ConceptCar drive={drive} />
 
@@ -444,6 +445,7 @@ export default function AureliusScene({ drive }: { drive: React.MutableRefObject
         <Lightformer intensity={3} position={[5, 1.4, -3.5]} rotation-y={-Math.PI / 3.2} scale={[4.5, 1.1, 1]} color="#93acff" />
         <Lightformer intensity={1.6} position={[0, 1.2, 5.4]} scale={[7, 2.2, 1]} color="#ffffff" />
         <Lightformer intensity={1.1} position={[0, 0.6, -5.6]} rotation-y={Math.PI} scale={[7, 1.6, 1]} color="#f2efe9" />
+        <Lightformer intensity={1.3} position={[-5.4, 0.7, 1.8]} rotation-y={Math.PI / 2.4} scale={[3.4, 0.9, 1]} color="#ff7a45" />
       </Environment>
     </>
   )

@@ -12,6 +12,9 @@
   --gold: #c8a45c;
   --gold-bright: #e3c98e;
   --gold-soft: rgba(200, 164, 92, 0.32);
+  --ember: #e0552f;
+  --rose: #ff5d8f;
+  --royal: #5c7ec8;
   --line: rgba(242, 239, 233, 0.13);
   --font-display: 'Italiana', 'Didot', serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
@@ -424,7 +427,18 @@ button {
 }
 .hero__title .thin {
   color: transparent;
-  -webkit-text-stroke: 1px rgba(242, 239, 233, 0.55);
+  -webkit-text-stroke: 1.2px rgba(216, 178, 102, 0.85);
+}
+/* warm horizon — colour even before the film's first frame */
+.hero__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 42% at 72% 80%, rgba(224, 138, 47, 0.26), transparent 70%),
+    radial-gradient(42% 34% at 18% 88%, rgba(200, 164, 92, 0.16), transparent 70%),
+    radial-gradient(36% 30% at 86% 22%, rgba(92, 126, 200, 0.12), transparent 70%);
+  mix-blend-mode: screen;
 }
 .hero__row {
   display: flex;
@@ -454,6 +468,7 @@ button {
   font-family: var(--font-display);
   font-size: clamp(1.7rem, 3vw, 2.6rem);
   letter-spacing: 0.04em;
+  color: var(--gold-bright);
 }
 .hero__stat span {
   font-size: 0.62rem;
@@ -535,7 +550,7 @@ button {
 
 .showcase {
   position: relative;
-  height: 480vh;
+  height: 330vh;
 }
 .showcase__stage {
   position: sticky;
@@ -664,12 +679,31 @@ button {
   gap: clamp(1.2rem, 2.4vw, 2.2rem);
 }
 .tilt-card {
+  --accent: var(--gold);
   position: relative;
   border: 1px solid var(--line);
   background: var(--carbon);
   overflow: hidden;
   transform-style: preserve-3d;
   will-change: transform;
+  transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+.tilt-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 6;
+  background: linear-gradient(90deg, var(--accent), transparent 65%);
+  opacity: 0.85;
+}
+.tilt-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow:
+    0 34px 90px -28px color-mix(in srgb, var(--accent) 55%, transparent),
+    0 8px 30px -12px rgba(0, 0, 0, 0.8);
 }
 .tilt-card__media {
   position: relative;
@@ -735,6 +769,7 @@ button {
   font-size: 1.02rem;
   font-weight: 600;
   letter-spacing: 0.02em;
+  color: var(--gold-bright);
 }
 .tilt-card__stats span {
   font-size: 0.58rem;
@@ -770,7 +805,7 @@ button {
 
 .engineering {
   position: relative;
-  height: 560vh;
+  height: 430vh;
   background: var(--ink);
 }
 .engineering__stage {
@@ -962,7 +997,7 @@ button {
 
 .gallery {
   position: relative;
-  height: 340vh;
+  height: 260vh;
   background: var(--ink);
 }
 .gallery__stage {
@@ -1006,11 +1041,10 @@ button {
   height: 100%;
   object-fit: cover;
   transition: transform 1s var(--ease-out), filter 1s ease;
-  filter: saturate(0.88);
 }
 .gallery__panel:hover img {
   transform: scale(1.07);
-  filter: saturate(1.05);
+  filter: saturate(1.12);
 }
 .gallery__cap {
   position: absolute;
@@ -1147,12 +1181,12 @@ button {
   height: 100%;
   object-fit: cover;
   transition: transform 1.2s var(--ease-out), filter 0.8s ease;
-  filter: saturate(0.85) contrast(1.02);
+  filter: contrast(1.03);
 }
 .atelier__cell:hover img,
 .atelier__cell:hover video {
   transform: scale(1.06);
-  filter: saturate(1.08);
+  filter: saturate(1.14) contrast(1.03);
 }
 .atelier__cell figcaption {
   position: absolute;

@@ -30,11 +30,13 @@ function TiltCard({ car, index }: { car: CarModel; index: number }) {
     py.set(0.5)
   }
 
+  const accentVar = { '--accent': car.accent } as Record<string, string>
+
   return (
     <motion.div
       ref={ref}
       className="tilt-card"
-      style={reduced ? undefined : { rotateX, rotateY, transformPerspective: 1000 }}
+      style={{ ...accentVar, ...(reduced ? {} : { rotateX, rotateY, transformPerspective: 1000 }) }}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       initial={{ opacity: 0, y: 70 }}

@@ -49,53 +49,53 @@ export default function Showcase() {
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ['start start', 'end end'] })
 
   /* — scene visibility — */
-  const s0Opacity = useTransform(p, [0.24, 0.3], [1, 0])
-  const s1Opacity = useWindow(p, 0.24, 0.3, 0.46, 0.52)
-  const s2Opacity = useWindow(p, 0.46, 0.52, 0.68, 0.74)
-  const s3Opacity = useTransform(p, [0.68, 0.74], [0, 1])
+  const s0Opacity = useTransform(p, [0.21, 0.27], [1, 0])
+  const s1Opacity = useWindow(p, 0.21, 0.27, 0.45, 0.51)
+  const s2Opacity = useWindow(p, 0.45, 0.51, 0.67, 0.73)
+  const s3Opacity = useTransform(p, [0.67, 0.73], [0, 1])
 
   /* — scene 0: the car approaches from the distance — */
-  const s0Scale = useTransform(p, [0, 0.26], [0.34, 1.03])
-  const s0Y = useTransform(p, [0, 0.26], ['7%', '0%'])
-  const s0Blur = useTransform(p, [0, 0.06, 0.2], [14, 9, 0])
+  const s0Scale = useTransform(p, [0, 0.2], [0.52, 1.04])
+  const s0Y = useTransform(p, [0, 0.2], ['6%', '0%'])
+  const s0Blur = useTransform(p, [0, 0.12], [10, 0])
   const s0Filter = useMotionTemplate`blur(${s0Blur}px)`
 
   /* — camera drifts around the car in each environment — */
-  const s1X = useTransform(p, [0.26, 0.52], ['-3.5%', '3.5%'])
-  const s1Scale = useTransform(p, [0.26, 0.52], [1.16, 1.05])
-  const s1Rot = useTransform(p, [0.26, 0.52], [4, -4])
-  const s2X = useTransform(p, [0.48, 0.74], ['3%', '-3%'])
-  const s2Scale = useTransform(p, [0.48, 0.74], [1.05, 1.16])
-  const s2Rot = useTransform(p, [0.48, 0.74], [-4, 4])
-  const s3Scale = useTransform(p, [0.7, 1], [1.18, 1.04])
-  const s3Y = useTransform(p, [0.7, 1], ['3%', '-2%'])
+  const s1X = useTransform(p, [0.21, 0.51], ['-3.5%', '3.5%'])
+  const s1Scale = useTransform(p, [0.21, 0.51], [1.16, 1.05])
+  const s1Rot = useTransform(p, [0.21, 0.51], [4, -4])
+  const s2X = useTransform(p, [0.45, 0.73], ['3%', '-3%'])
+  const s2Scale = useTransform(p, [0.45, 0.73], [1.05, 1.16])
+  const s2Rot = useTransform(p, [0.45, 0.73], [-4, 4])
+  const s3Scale = useTransform(p, [0.67, 1], [1.18, 1.04])
+  const s3Y = useTransform(p, [0.67, 1], ['3%', '-2%'])
 
   /* — motion-blur pulses at each cut — */
   const cutBlur = useTransform(
     p,
-    [0, 0.255, 0.275, 0.295, 0.475, 0.495, 0.515, 0.695, 0.715, 0.735, 1],
+    [0, 0.22, 0.24, 0.26, 0.46, 0.48, 0.5, 0.68, 0.7, 0.72, 1],
     [0, 0, 7, 0, 0, 7, 0, 0, 7, 0, 0],
   )
   const stageFilter = useMotionTemplate`blur(${cutBlur}px)`
   const stageJolt = useTransform(
     p,
-    [0, 0.255, 0.275, 0.295, 0.475, 0.495, 0.515, 0.695, 0.715, 0.735, 1],
+    [0, 0.22, 0.24, 0.26, 0.46, 0.48, 0.5, 0.68, 0.7, 0.72, 1],
     [1, 1, 1.02, 1, 1, 1.02, 1, 1, 1.02, 1, 1],
   )
 
   /* — lighting grade shifts with the hour — */
   const tint = useTransform(
     p,
-    [0.12, 0.34, 0.56, 0.8],
-    ['rgba(140, 150, 255, 0.0)', 'rgba(255, 178, 92, 0.34)', 'rgba(255, 104, 150, 0.36)', 'rgba(66, 108, 255, 0.4)'],
+    [0.08, 0.3, 0.55, 0.8],
+    ['rgba(150, 160, 255, 0.0)', 'rgba(255, 170, 64, 0.52)', 'rgba(255, 86, 140, 0.54)', 'rgba(56, 102, 255, 0.58)'],
   )
-  const trailsOpacity = useTransform(p, [0.72, 0.85], [0, 0.5])
+  const trailsOpacity = useTransform(p, [0.71, 0.84], [0, 0.55])
 
-  /* — captions — */
-  const cap0 = useWindow(p, 0.02, 0.07, 0.21, 0.27)
-  const cap1 = useWindow(p, 0.29, 0.34, 0.43, 0.49)
-  const cap2 = useWindow(p, 0.51, 0.56, 0.65, 0.71)
-  const cap3 = useWindow(p, 0.73, 0.78, 0.94, 1)
+  /* — captions: continuous coverage, no dead air — */
+  const cap0 = useWindow(p, 0.01, 0.05, 0.17, 0.23)
+  const cap1 = useWindow(p, 0.25, 0.3, 0.41, 0.47)
+  const cap2 = useWindow(p, 0.49, 0.54, 0.63, 0.69)
+  const cap3 = useWindow(p, 0.71, 0.76, 0.95, 1)
   const capOpacity = [cap0, cap1, cap2, cap3]
 
   const barScale = useTransform(p, [0, 1], [0, 1])
@@ -107,7 +107,7 @@ export default function Showcase() {
         {CHAPTERS.map((chapter, i) => (
           <div key={chapter.idx} style={{ position: 'relative', height: '88vh', overflow: 'hidden' }}>
             <SmartImage
-              asset={[IMG.approachDark, IMG.dayCoupe, IMG.duskRoadster, IMG.nightAmg][i]}
+              asset={[IMG.approachDark, IMG.dayCoupe, IMG.duskRoadster, IMG.nightJaguar][i]}
               fallback={IMG.heroPoster}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -155,7 +155,7 @@ export default function Showcase() {
           {/* 04 — night + light trails */}
           <motion.div className="showcase__scene" style={{ opacity: s3Opacity }}>
             <motion.div style={{ width: '100%', height: '100%', scale: s3Scale, y: s3Y }}>
-              <SmartImage asset={IMG.nightAmg} fallback={IMG.nightJaguar} sizes="100vw" width={2200} />
+              <SmartImage asset={IMG.nightJaguar} fallback={IMG.nightAmg} sizes="100vw" width={2200} />
             </motion.div>
             <motion.div className="showcase__trails" style={{ opacity: trailsOpacity }}>
               <SmartImage asset={IMG.lightTrails} fallback={IMG.cityLights} sizes="100vw" width={1600} />

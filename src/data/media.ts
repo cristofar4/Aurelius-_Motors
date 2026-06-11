@@ -241,7 +241,7 @@ export const FILM = {
       `${MK}/mixkit-sports-car-driving-in-the-night-40600-large.mp4`,
       `${MK}/mixkit-fast-car-driving-on-the-highway-at-night-1595-large.mp4`,
     ],
-    poster: IMG.heroPoster,
+    poster: IMG.nightAmg,
     credit: 'Film — Ojyrai Films via Pexels / Mixkit',
   },
   /** Lighter chain for small viewports / constrained connections */
@@ -251,7 +251,7 @@ export const FILM = {
       `${MK}/mixkit-sports-car-driving-in-the-night-40600-large.mp4`,
       `${MK}/mixkit-fast-car-driving-on-the-highway-at-night-1595-large.mp4`,
     ],
-    poster: IMG.heroPoster,
+    poster: IMG.nightAmg,
     credit: 'Film — Ojyrai Films via Pexels / Mixkit',
   },
   /** Night drive — black car through the city after dark */

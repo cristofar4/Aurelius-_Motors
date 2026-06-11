@@ -10,13 +10,14 @@ import {
 import { FILM } from '../data/media'
 import SmartVideo from './ui/SmartVideo'
 
-/** Pick the 4K chain only where it can actually be appreciated. */
+/** Pick the 4K chain only on wide screens with a demonstrably fast connection —
+ *  a stalling hero reads as a hung page, so HD is the safe default. */
 function pickHeroFilm() {
   if (typeof window === 'undefined') return FILM.heroLite
-  const wide = window.innerWidth * (window.devicePixelRatio || 1) >= 2200
+  const wide = window.innerWidth * (window.devicePixelRatio || 1) >= 2400
   const conn = (navigator as { connection?: { saveData?: boolean; effectiveType?: string } }).connection
-  const constrained = conn?.saveData || /(^|\b)(slow-)?2g\b/.test(conn?.effectiveType ?? '')
-  return wide && !constrained ? FILM.hero : FILM.heroLite
+  const fast = !conn || (!conn.saveData && conn.effectiveType === '4g')
+  return wide && fast ? FILM.hero : FILM.heroLite
 }
 
 export default function Hero({ interactive }: { interactive: boolean }) {
@@ -49,6 +50,7 @@ export default function Hero({ interactive }: { interactive: boolean }) {
         <SmartVideo asset={film} lazy={false} posterWidth={2000} />
       </motion.div>
       <div className="hero__scrim" />
+      <div className="hero__glow" />
 
       <motion.div
         className="container hero__content"

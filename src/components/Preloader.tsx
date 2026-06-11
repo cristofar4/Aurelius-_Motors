@@ -11,8 +11,8 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
     const started = performance.now()
     let raf = 0
     const tick = (now: number) => {
-      // ease toward 100 over ~2s — feels measured, not busy
-      const t = Math.min((now - started) / 2000, 1)
+      // brisk ramp — a beat of brand, never a wait
+      const t = Math.min((now - started) / 1050, 1)
       const eased = 1 - Math.pow(1 - t, 3)
       setCount(Math.round(eased * 100))
       if (t < 1) raf = requestAnimationFrame(tick)
@@ -20,7 +20,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
         setTimeout(() => {
           setGone(true)
           onDone()
-        }, 350)
+        }, 180)
       }
     }
     raf = requestAnimationFrame(tick)
@@ -33,7 +33,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
         <motion.div
           className="preloader"
           exit={{ y: '-100%' }}
-          transition={{ duration: 1.05, ease: [0.76, 0, 0.24, 1] }}
+          transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
         >
           <div className="preloader__inner">
             <div className="preloader__word" aria-label={WORD}>
@@ -42,7 +42,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
                   key={i}
                   initial={{ y: '110%', opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.12 + i * 0.055, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ delay: 0.05 + i * 0.04, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
                   {letter}
                 </motion.span>

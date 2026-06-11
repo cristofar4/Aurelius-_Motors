@@ -5,7 +5,7 @@ import SmartVideo from './ui/SmartVideo'
 import Reveal from './ui/Reveal'
 
 const CELLS: { asset: ImageAsset; cap: string; cls: string }[] = [
-  { asset: IMG.ferrariRed, cap: 'Rosso Aurelius — night study', cls: 'atelier__cell--b' },
+  { asset: IMG.redLifestyle, cap: 'Rosso Aurelius — golden hour', cls: 'atelier__cell--b' },
   { asset: IMG.hypercarHighway, cap: 'Grand touring, Apennines', cls: 'atelier__cell--c' },
   { asset: IMG.duskRoadster, cap: 'Velox at golden hour', cls: 'atelier__cell--d' },
   { asset: IMG.cityLights, cap: 'The night district', cls: 'atelier__cell--e' },
