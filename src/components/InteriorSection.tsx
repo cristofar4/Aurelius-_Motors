@@ -5,10 +5,10 @@ import SmartImage from './ui/SmartImage'
 import Reveal from './ui/Reveal'
 
 const FEATURES = [
-  { name: 'Bridge of Weir hide', detail: '11 hides · 62 hours of stitching' },
+  { name: 'Bridge of Weir hide', detail: '11 hides, 62 hours of stitching' },
   { name: 'Machined rotary console', detail: 'Billet aluminium, knurled by hand' },
-  { name: 'Aurum ambient system', detail: '27 light sources, candle-graded' },
-  { name: 'Sonus Faber concert audio', detail: '1,420 W · 23 transducers' },
+  { name: 'Halo ambient system', detail: '27 light sources, candle graded' },
+  { name: 'Sonus Faber concert audio', detail: '1,420 W, 23 transducers' },
 ]
 
 export default function InteriorSection() {
@@ -45,8 +45,8 @@ export default function InteriorSection() {
           </h2>
           <Reveal mode="rise" delay={0.22}>
             <p>
-              Sixty-two hours of saddlery for every cockpit. Nothing printed, nothing implied —
-              if it looks like metal, it is metal; if it looks like silence, it is engineered silence.
+              Sixty hours of saddlery for every cockpit. Nothing printed, nothing implied.
+              If it looks like metal, it is metal. If it looks like silence, it is engineered silence.
             </p>
           </Reveal>
           <ul className="interior__list">

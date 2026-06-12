@@ -93,7 +93,7 @@ export default function Lineup() {
           </div>
           <Reveal mode="rise" delay={0.2}>
             <p>
-              Each Aurelius leaves Modena-on-Tyne as a numbered work — coachbuilt to commission,
+              Each Aurelius leaves the atelier as a numbered work, coachbuilt to commission,
               never to inventory.
             </p>
           </Reveal>

@@ -25,7 +25,7 @@ export default function NightDrive() {
         <Reveal mode="rise" delay={0.25}>
           <p>
             Matrix lasers read the road three hundred metres out. The cabin dims to candlelight.
-            The V12 drops to a murmur — until you ask it not to.
+            The V12 drops to a murmur, until you ask it not to.
           </p>
         </Reveal>
       </div>

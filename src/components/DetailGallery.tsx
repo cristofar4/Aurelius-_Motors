@@ -5,8 +5,8 @@ import SmartImage from './ui/SmartImage'
 
 const PANELS: { asset: ImageAsset; cap: string }[] = [
   { asset: IMG.cockpitArea, cap: 'Driver axis' },
-  { asset: IMG.wheelGloss, cap: 'Forged 21″ aurum wheel' },
-  { asset: IMG.engineClassic, cap: 'Hand-finished plenum' },
+  { asset: IMG.wheelGloss, cap: 'Forged 21 inch wheel' },
+  { asset: IMG.engineClassic, cap: 'Hand finished plenum' },
   { asset: IMG.cabinLuxury, cap: 'Saddlery atelier' },
   { asset: IMG.wheelForged, cap: 'Carbide brake assembly' },
   { asset: IMG.gauges, cap: 'Machined switchgear' },

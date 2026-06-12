@@ -12,7 +12,7 @@ export interface CarModel {
 export const LINEUP: CarModel[] = [
   {
     name: 'Imperator GT',
-    designation: '01 — FLAGSHIP GRAND TOURER',
+    designation: '01, FLAGSHIP GRAND TOURER',
     tagline: 'Twelve cylinders, composed like a symphony.',
     image: IMG.lineupGT,
     stats: [
@@ -24,7 +24,7 @@ export const LINEUP: CarModel[] = [
   },
   {
     name: 'Velox RS',
-    designation: '02 — CIRCUIT INSTRUMENT',
+    designation: '02, CIRCUIT INSTRUMENT',
     tagline: 'Downforce you can feel in your teeth.',
     image: IMG.lineupRS,
     stats: [
@@ -32,11 +32,11 @@ export const LINEUP: CarModel[] = [
       { label: 'Weight', value: '1,198 kg' },
       { label: 'Downforce', value: '820 kg' },
     ],
-    accent: '#cfcfd4',
+    accent: '#d6001c',
   },
   {
     name: 'Noctis E',
-    designation: '03 — ELECTRIC HYPER-COUPE',
+    designation: '03, ELECTRIC HYPER COUPE',
     tagline: 'Silence, weaponised.',
     image: IMG.lineupE,
     stats: [

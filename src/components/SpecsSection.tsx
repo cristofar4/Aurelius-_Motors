@@ -35,7 +35,7 @@ export default function SpecsSection() {
         <div className="section-head" style={{ justifyContent: 'center', textAlign: 'center' }}>
           <div style={{ width: '100%' }}>
             <Reveal mode="rise">
-              <span className="kicker">Imperator GT — the numbers</span>
+              <span className="kicker">Imperator GT, the numbers</span>
             </Reveal>
           </div>
         </div>

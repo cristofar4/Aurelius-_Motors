@@ -18,7 +18,7 @@ export default function FinalCta() {
       <div className="finale__scrim" />
       <div className="container finale__content">
         <Reveal mode="rise">
-          <span className="kicker">Commissions open — MMXXVI</span>
+          <span className="kicker">Commissions open, MMXXVI</span>
         </Reveal>
         <h2 className="h-display">
           <Reveal delay={0.08}>Yours is</Reveal>
@@ -28,8 +28,8 @@ export default function FinalCta() {
         </h2>
         <Reveal mode="rise" delay={0.28}>
           <p>
-            Eighty-eight build slots a year. A private audience with the design house, a seat in
-            the wind tunnel, and one hundred and eleven days later — your name on the sill plate.
+            Only 88 build slots a year. A private audience with the design house, a seat in
+            the wind tunnel, and one hundred and eleven days later, your name on the sill plate.
           </p>
         </Reveal>
         <Reveal mode="rise" delay={0.36}>

@@ -36,16 +36,16 @@ function useMaterials() {
       roughness: 0.32,
       envMapIntensity: 1.3,
     })
-    const caliperSilver = new THREE.MeshStandardMaterial({
-      color: '#9aa0a8',
-      metalness: 0.8,
-      roughness: 0.35,
+    const caliper = new THREE.MeshStandardMaterial({
+      color: '#c41420',
+      metalness: 0.4,
+      roughness: 0.4,
     })
     const anodized = new THREE.MeshStandardMaterial({
-      color: '#e4e6ea',
-      metalness: 1,
-      roughness: 0.22,
-      envMapIntensity: 1.5,
+      color: '#b3101f',
+      metalness: 0.85,
+      roughness: 0.3,
+      envMapIntensity: 1.3,
     })
     const darkMetal = new THREE.MeshStandardMaterial({
       color: '#1d1d23',
@@ -76,7 +76,7 @@ function useMaterials() {
       emissive: '#ff2417',
       emissiveIntensity: 3,
     })
-    return { paint, alloy, polished, springSteel, caliperSilver, anodized, darkMetal, carbon, glass, tire, headlight, taillight }
+    return { paint, alloy, polished, springSteel, caliper, anodized, darkMetal, carbon, glass, tire, headlight, taillight }
   }, [])
 }
 
@@ -174,7 +174,7 @@ function Wheel({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       <mesh material={mats.darkMetal} rotation-x={Math.PI / 2} position={[0, 0, -0.09]}>
         <cylinderGeometry args={[0.18, 0.18, 0.025, 32]} />
       </mesh>
-      <mesh material={mats.caliperSilver} position={[0.13, 0.12, -0.09]} rotation-z={-0.7}>
+      <mesh material={mats.caliper} position={[0.13, 0.12, -0.09]} rotation-z={-0.7}>
         <boxGeometry args={[0.09, 0.16, 0.06]} />
       </mesh>
     </group>
@@ -465,7 +465,7 @@ export default function AureliusScene({ drive }: { drive: React.MutableRefObject
       </mesh>
       <mesh rotation-x={-Math.PI / 2} position={[0, -0.428, 0]}>
         <ringGeometry args={[3.35, 3.38, 96]} />
-        <meshBasicMaterial color="#fafafa" transparent opacity={0.22} />
+        <meshBasicMaterial color="#d6001c" transparent opacity={0.26} />
       </mesh>
       <ContactShadows position={[0, -0.43, 0]} opacity={0.62} scale={13} blur={2.4} far={3.4} resolution={512} color="#000000" />
 

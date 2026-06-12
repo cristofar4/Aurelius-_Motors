@@ -98,8 +98,8 @@ export default function Hero({ interactive }: { interactive: boolean }) {
             animate={interactive ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 1, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
           >
-            <em>The art of velocity.</em> Twelve cylinders, hand-laid carbon and four hundred
-            hours of obsession — composed into machines that turn distance into theatre.
+            <em>The art of velocity.</em> Twelve cylinders, hand laid carbon and four hundred
+            hours of obsession, composed into machines that turn distance into theatre.
           </motion.p>
 
           <motion.div

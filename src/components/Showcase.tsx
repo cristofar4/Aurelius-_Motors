@@ -18,24 +18,24 @@ interface Chapter {
 
 const CHAPTERS: Chapter[] = [
   {
-    idx: '01 — Arrival',
+    idx: '01, Arrival',
     title: 'It begins in darkness.',
-    copy: 'A silhouette resolves out of the black — twelve cylinders idling like a held breath.',
+    copy: 'A silhouette resolves out of the black, twelve cylinders idling like a held breath.',
   },
   {
-    idx: '02 — First light',
+    idx: '02, First light',
     title: 'Forged for daylight.',
     copy: 'Every surface is wind-tunnel sculpture. The sun finds nothing accidental.',
   },
   {
-    idx: '03 — Golden hour',
+    idx: '03, Golden hour',
     title: 'Alive at dusk.',
     copy: 'Heat in the brakes, amber on the paint. The road begins to confess.',
   },
   {
-    idx: '04 — Night sovereign',
+    idx: '04, Night sovereign',
     title: 'The city yields.',
-    copy: 'Light trails braid behind you. Aurelius does not pass through the night — it commands it.',
+    copy: 'Light trails braid behind you. Aurelius does not pass through the night, it commands it.',
   },
 ]
 

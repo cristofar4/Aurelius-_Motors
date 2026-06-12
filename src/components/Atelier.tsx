@@ -5,7 +5,7 @@ import SmartVideo from './ui/SmartVideo'
 import Reveal from './ui/Reveal'
 
 const CELLS: { asset: ImageAsset; cap: string; cls: string }[] = [
-  { asset: IMG.redLifestyle, cap: 'Rosso Aurelius — golden hour', cls: 'atelier__cell--b' },
+  { asset: IMG.redLifestyle, cap: 'Rosso Aurelius, golden hour', cls: 'atelier__cell--b' },
   { asset: IMG.hypercarHighway, cap: 'Grand touring, Apennines', cls: 'atelier__cell--c' },
   { asset: IMG.duskRoadster, cap: 'Velox at golden hour', cls: 'atelier__cell--d' },
   { asset: IMG.cityLights, cap: 'The night district', cls: 'atelier__cell--e' },
@@ -27,7 +27,7 @@ export default function Atelier() {
           </div>
           <Reveal mode="rise" delay={0.2}>
             <p>
-              Film and photography from our test routes, paint studios and the long roads between —
+              Film and photography from our test routes, paint studios and the long roads between,
               shot on real tarmac, never rendered.
             </p>
           </Reveal>
@@ -42,7 +42,7 @@ export default function Atelier() {
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
             <SmartVideo asset={FILM.atelier} posterWidth={1400} />
-            <figcaption>Paint study — 24 fps</figcaption>
+            <figcaption>Paint study, 24 fps</figcaption>
           </motion.figure>
 
           {CELLS.map((cell, i) => (

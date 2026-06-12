@@ -59,7 +59,6 @@ export default function App() {
   return (
     <LenisContext.Provider value={lenis}>
       <Preloader onDone={handleBooted} />
-      <div className="grain" aria-hidden="true" />
       <LightField />
       <PrecisionCursor />
       <Navbar />

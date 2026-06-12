@@ -28,24 +28,24 @@ class CanvasBoundary extends Component<{ children: ReactNode }, { failed: boolea
 
 const PHASES = [
   {
-    idx: 'Phase 01 — Monocoque',
+    idx: 'Phase 01, Monocoque',
     title: 'Built around a carbon heart.',
     copy: 'A single carbon tub, autoclaved for nine hours. Stiffer than a race cell, lighter than the driver it protects.',
   },
   {
-    idx: 'Phase 02 — Powertrain',
+    idx: 'Phase 02, Powertrain',
     title: 'The V12, laid bare.',
-    copy: '6.6 litres, 9,200 rpm, a machined-alloy plenum. Every internal is balanced by hand to a tenth of a gram.',
+    copy: '6.6 litres, 9,200 rpm, a machined alloy plenum. Every internal is balanced by hand to a tenth of a gram.',
   },
   {
-    idx: 'Phase 03 — Suspension',
+    idx: 'Phase 03, Suspension',
     title: 'Geometry as philosophy.',
-    copy: 'Inboard pushrods and polished-steel coil springs read the road two hundred times a second — and answer politely.',
+    copy: 'Inboard pushrods and polished steel coil springs read the road two hundred times a second, and answer politely.',
   },
   {
-    idx: 'Phase 04 — Assembly',
+    idx: 'Phase 04, Assembly',
     title: 'Four microns of tolerance.',
-    copy: 'One hundred and eleven days. Three master builders. The car returns to one — and signs its own chassis plate.',
+    copy: 'One hundred and eleven days. Three master builders. The car returns to one, and signs its own chassis plate.',
   },
 ]
 

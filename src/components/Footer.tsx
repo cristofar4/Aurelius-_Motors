@@ -16,8 +16,8 @@ export default function Footer() {
               AURELIUS <span>MOTORS</span>
             </span>
             <p>
-              Coachbuilt grand tourers and hypercars, composed — not assembled. Modena-on-Tyne,
-              est. MMXXVI.
+              Coachbuilt grand tourers and hypercars, composed, not assembled. The Aurelius
+              atelier, est. MMXXVI.
             </p>
           </div>
           <div>
@@ -42,17 +42,17 @@ export default function Footer() {
             <ul>
               <li>
                 <a href="https://unsplash.com" target="_blank" rel="noreferrer">
-                  Photography — Unsplash artists
+                  Photography: Unsplash artists
                 </a>
               </li>
               <li>
                 <a href="https://www.pexels.com" target="_blank" rel="noreferrer">
-                  Film — Pexels (Ojyrai Films, Taryn Elliott)
+                  Film: Pexels (Ojyrai Films, Taryn Elliott)
                 </a>
               </li>
               <li>
                 <a href="https://mixkit.co" target="_blank" rel="noreferrer">
-                  Film — Mixkit
+                  Film: Mixkit
                 </a>
               </li>
             </ul>
