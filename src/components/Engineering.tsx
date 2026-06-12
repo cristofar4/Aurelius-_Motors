@@ -40,7 +40,7 @@ const PHASES = [
   {
     idx: 'Phase 03 — Suspension',
     title: 'Geometry as philosophy.',
-    copy: 'Inboard pushrods and racing-blue coil springs read the road two hundred times a second — and answer politely.',
+    copy: 'Inboard pushrods and polished-steel coil springs read the road two hundred times a second — and answer politely.',
   },
   {
     idx: 'Phase 04 — Assembly',

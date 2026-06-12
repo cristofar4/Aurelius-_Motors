@@ -24,7 +24,7 @@ export default function LightField() {
     const loop = () => {
       curX += (targetX - curX) * 0.09
       curY += (targetY - curY) * 0.09
-      el.style.background = `radial-gradient(620px at ${curX.toFixed(1)}px ${curY.toFixed(1)}px, rgba(79, 142, 255, 0.065), transparent 65%)`
+      el.style.background = `radial-gradient(620px at ${curX.toFixed(1)}px ${curY.toFixed(1)}px, rgba(250, 250, 250, 0.05), transparent 65%)`
       raf = requestAnimationFrame(loop)
     }
     window.addEventListener('mousemove', move, { passive: true })

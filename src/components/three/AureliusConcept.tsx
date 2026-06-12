@@ -30,22 +30,22 @@ function useMaterials() {
       roughness: 0.14,
       envMapIntensity: 1.7,
     })
-    const springBlue = new THREE.MeshStandardMaterial({
-      color: '#2f6bff',
-      metalness: 0.55,
-      roughness: 0.38,
-      envMapIntensity: 1.2,
+    const springSteel = new THREE.MeshStandardMaterial({
+      color: '#d7dadf',
+      metalness: 0.95,
+      roughness: 0.32,
+      envMapIntensity: 1.3,
     })
-    const caliperRed = new THREE.MeshStandardMaterial({
-      color: '#d63a2c',
-      metalness: 0.35,
-      roughness: 0.42,
+    const caliperSilver = new THREE.MeshStandardMaterial({
+      color: '#9aa0a8',
+      metalness: 0.8,
+      roughness: 0.35,
     })
     const anodized = new THREE.MeshStandardMaterial({
-      color: '#3f7eff',
-      metalness: 0.9,
-      roughness: 0.3,
-      envMapIntensity: 1.4,
+      color: '#e4e6ea',
+      metalness: 1,
+      roughness: 0.22,
+      envMapIntensity: 1.5,
     })
     const darkMetal = new THREE.MeshStandardMaterial({
       color: '#1d1d23',
@@ -76,7 +76,7 @@ function useMaterials() {
       emissive: '#ff2417',
       emissiveIntensity: 3,
     })
-    return { paint, alloy, polished, springBlue, caliperRed, anodized, darkMetal, carbon, glass, tire, headlight, taillight }
+    return { paint, alloy, polished, springSteel, caliperSilver, anodized, darkMetal, carbon, glass, tire, headlight, taillight }
   }, [])
 }
 
@@ -174,7 +174,7 @@ function Wheel({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       <mesh material={mats.darkMetal} rotation-x={Math.PI / 2} position={[0, 0, -0.09]}>
         <cylinderGeometry args={[0.18, 0.18, 0.025, 32]} />
       </mesh>
-      <mesh material={mats.caliperRed} position={[0.13, 0.12, -0.09]} rotation-z={-0.7}>
+      <mesh material={mats.caliperSilver} position={[0.13, 0.12, -0.09]} rotation-z={-0.7}>
         <boxGeometry args={[0.09, 0.16, 0.06]} />
       </mesh>
     </group>
@@ -220,7 +220,7 @@ function Engine({ mats }: { mats: ReturnType<typeof useMaterials> }) {
 function SuspensionCorner({ mats, springGeo }: { mats: ReturnType<typeof useMaterials>; springGeo: THREE.TubeGeometry }) {
   return (
     <group>
-      <mesh geometry={springGeo} material={mats.springBlue} />
+      <mesh geometry={springGeo} material={mats.springSteel} />
       <mesh material={mats.darkMetal}>
         <cylinderGeometry args={[0.026, 0.026, 0.3, 12]} />
       </mesh>
@@ -440,7 +440,7 @@ export default function AureliusScene({ drive }: { drive: React.MutableRefObject
       <Rig drive={drive} />
       <ambientLight intensity={0.25} />
       <spotLight position={[6, 9, 4]} angle={0.5} penumbra={0.8} intensity={120} color="#fff2da" castShadow={false} />
-      <spotLight position={[-7, 4, -6]} angle={0.6} penumbra={1} intensity={60} color="#8aa2ff" />
+      <spotLight position={[-7, 4, -6]} angle={0.6} penumbra={1} intensity={60} color="#d8deea" />
       <spotLight position={[-5, 2, 7]} angle={0.7} penumbra={1} intensity={26} color="#ffd9c2" />
 
       <ConceptCar drive={drive} />
@@ -465,14 +465,14 @@ export default function AureliusScene({ drive }: { drive: React.MutableRefObject
       </mesh>
       <mesh rotation-x={-Math.PI / 2} position={[0, -0.428, 0]}>
         <ringGeometry args={[3.35, 3.38, 96]} />
-        <meshBasicMaterial color="#4f8eff" transparent opacity={0.3} />
+        <meshBasicMaterial color="#fafafa" transparent opacity={0.22} />
       </mesh>
       <ContactShadows position={[0, -0.43, 0]} opacity={0.62} scale={13} blur={2.4} far={3.4} resolution={512} color="#000000" />
 
       <Environment resolution={256} frames={1}>
         <Lightformer intensity={5} position={[0, 4, 0]} rotation-x={Math.PI / 2} scale={[9, 4, 1]} color="#fff4dd" />
-        <Lightformer intensity={3} position={[-5, 1.6, 3.5]} rotation-y={Math.PI / 3.2} scale={[4.5, 1.1, 1]} color="#9cc0ff" />
-        <Lightformer intensity={3} position={[5, 1.4, -3.5]} rotation-y={-Math.PI / 3.2} scale={[4.5, 1.1, 1]} color="#93acff" />
+        <Lightformer intensity={3} position={[-5, 1.6, 3.5]} rotation-y={Math.PI / 3.2} scale={[4.5, 1.1, 1]} color="#eef0f4" />
+        <Lightformer intensity={3} position={[5, 1.4, -3.5]} rotation-y={-Math.PI / 3.2} scale={[4.5, 1.1, 1]} color="#dfe4ee" />
         <Lightformer intensity={1.6} position={[0, 1.2, 5.4]} scale={[7, 2.2, 1]} color="#ffffff" />
         <Lightformer intensity={1.1} position={[0, 0.6, -5.6]} rotation-y={Math.PI} scale={[7, 1.6, 1]} color="#f2efe9" />
         <Lightformer intensity={1.2} position={[-5.4, 0.7, 1.8]} rotation-y={Math.PI / 2.4} scale={[3.4, 0.9, 1]} color="#ffe2c8" />

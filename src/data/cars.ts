@@ -20,7 +20,7 @@ export const LINEUP: CarModel[] = [
       { label: '0–100', value: '2.4 s' },
       { label: 'V-Max', value: '350 km/h' },
     ],
-    accent: '#4f8eff',
+    accent: '#e9e9ec',
   },
   {
     name: 'Velox RS',
@@ -32,7 +32,7 @@ export const LINEUP: CarModel[] = [
       { label: 'Weight', value: '1,198 kg' },
       { label: 'Downforce', value: '820 kg' },
     ],
-    accent: '#ff3d2e',
+    accent: '#cfcfd4',
   },
   {
     name: 'Noctis E',
@@ -44,7 +44,7 @@ export const LINEUP: CarModel[] = [
       { label: '0–100', value: '1.9 s' },
       { label: 'Range', value: '610 km' },
     ],
-    accent: '#2ad8c4',
+    accent: '#b9b9c0',
   },
 ]
 
