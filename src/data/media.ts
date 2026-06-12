@@ -20,10 +20,10 @@ export interface ImageAsset {
   credit: string
 }
 
-export const unsplash = (id: string, w = 1800, q = 80) =>
+export const unsplash = (id: string, w = 1800, q = 84) =>
   `${U}/${id}?q=${q}&w=${w}&auto=format&fit=crop`
 
-export const srcSetOf = (id: string, widths: number[] = [640, 1080, 1600, 2200], q = 80) =>
+export const srcSetOf = (id: string, widths: number[] = [640, 1080, 1600, 2200, 2600], q = 84) =>
   widths.map((w) => `${unsplash(id, w, q)} ${w}w`).join(', ')
 
 /* ------------------------------------------------------------------ */
@@ -241,7 +241,7 @@ export const FILM = {
       `${MK}/mixkit-sports-car-driving-in-the-night-40600-large.mp4`,
       `${MK}/mixkit-fast-car-driving-on-the-highway-at-night-1595-large.mp4`,
     ],
-    poster: IMG.nightAmg,
+    poster: IMG.heroPoster,
     credit: 'Film — Ojyrai Films via Pexels / Mixkit',
   },
   /** Lighter chain for small viewports / constrained connections */
@@ -251,7 +251,7 @@ export const FILM = {
       `${MK}/mixkit-sports-car-driving-in-the-night-40600-large.mp4`,
       `${MK}/mixkit-fast-car-driving-on-the-highway-at-night-1595-large.mp4`,
     ],
-    poster: IMG.nightAmg,
+    poster: IMG.heroPoster,
     credit: 'Film — Ojyrai Films via Pexels / Mixkit',
   },
   /** Night drive — black car through the city after dark */

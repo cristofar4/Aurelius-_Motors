@@ -25,7 +25,7 @@ const CHAPTERS: Chapter[] = [
   {
     idx: '02, First light',
     title: 'Forged for daylight.',
-    copy: 'Every surface is wind-tunnel sculpture. The sun finds nothing accidental.',
+    copy: 'Every surface is wind tunnel sculpture. The sun finds nothing accidental.',
   },
   {
     idx: '03, Golden hour',
@@ -99,6 +99,9 @@ export default function Showcase() {
   const capOpacity = [cap0, cap1, cap2, cap3]
 
   const barScale = useTransform(p, [0, 1], [0, 1])
+  /* — the stage itself leans with the journey, a touch of depth — */
+  const stageTilt = useTransform(p, [0, 0.5, 1], [1.6, 0, -1.6])
+  const capY = useTransform(p, [0, 1], [16, -16])
 
   if (reduced) {
     // calm variant: one full-bleed frame per chapter, no pinning
@@ -127,7 +130,14 @@ export default function Showcase() {
     <section id="showcase" className="showcase" ref={ref}>
       <div className="showcase__stage" style={{ perspective: 1100 }}>
         <motion.div
-          style={{ position: 'absolute', inset: 0, filter: stageFilter, scale: stageJolt }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            filter: stageFilter,
+            scale: stageJolt,
+            rotateX: stageTilt,
+            transformPerspective: 1100,
+          }}
         >
           {/* 01 — approach from the void */}
           <motion.div className="showcase__scene" style={{ opacity: s0Opacity }}>
@@ -169,7 +179,7 @@ export default function Showcase() {
         <div className="showcase__vignette" />
 
         {CHAPTERS.map((chapter, i) => (
-          <motion.div className="showcase__caption" key={chapter.idx} style={{ opacity: capOpacity[i] }}>
+          <motion.div className="showcase__caption" key={chapter.idx} style={{ opacity: capOpacity[i], y: capY }}>
             <span className="idx kicker">{chapter.idx}</span>
             <h3>{chapter.title}</h3>
             <p>{chapter.copy}</p>

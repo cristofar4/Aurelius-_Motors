@@ -70,20 +70,20 @@ export default function Hero({ interactive }: { interactive: boolean }) {
           className="hero__title h-display"
           style={reduced ? undefined : { rotateX: tiltX, rotateY: tiltY, x: driftX, transformPerspective: 900 }}
         >
-          <span className="reveal-line">
+          <span className="reveal-line" style={{ perspective: 900 }}>
             <motion.span
-              initial={{ y: '110%' }}
-              animate={interactive ? { y: 0 } : undefined}
+              initial={{ y: '110%', rotateX: -55 }}
+              animate={interactive ? { y: 0, rotateX: 0 } : undefined}
               transition={{ duration: 1.2, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
             >
               Aurelius
             </motion.span>
           </span>
-          <span className="reveal-line">
+          <span className="reveal-line" style={{ perspective: 900 }}>
             <motion.span
               className="thin"
-              initial={{ y: '110%' }}
-              animate={interactive ? { y: 0 } : undefined}
+              initial={{ y: '110%', rotateX: -55 }}
+              animate={interactive ? { y: 0, rotateX: 0 } : undefined}
               transition={{ duration: 1.2, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
             >
               Motors
@@ -110,11 +110,11 @@ export default function Hero({ interactive }: { interactive: boolean }) {
           >
             <div className="hero__stat">
               <strong>2.4 s</strong>
-              <span>0–100 km/h</span>
+              <span>0 to 100 km/h</span>
             </div>
             <div className="hero__stat">
               <strong>350</strong>
-              <span>km/h v-max</span>
+              <span>km/h top speed</span>
             </div>
             <div className="hero__stat">
               <strong>1,180</strong>

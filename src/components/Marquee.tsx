@@ -3,7 +3,7 @@ import { motion, useScroll, useSpring, useTransform, useVelocity } from 'framer-
 const ITEMS = [
   'Imperator GT',
   '1,180 PS',
-  '0–100 in 2.4 s',
+  '0 to 100 in 2.4 s',
   'Hand laid carbon',
   'V12 · 9,200 rpm',
   'Velox RS',

@@ -9,10 +9,9 @@
   --bone: #fafafa;
   --mist: rgba(250, 250, 250, 0.64);
   --faint: rgba(250, 250, 250, 0.36);
-  --platinum: #e9e9ec;
-  --accent: #d6001c;        /* racing red, deployed like a signature */
-  --accent-bright: #ff3145;
-  --accent-soft: rgba(214, 0, 28, 0.4);
+  --accent: #2fa874;        /* racing emerald, the marque signature */
+  --accent-bright: #5fd9a4;
+  --accent-soft: rgba(47, 168, 116, 0.42);
   --line: rgba(250, 250, 250, 0.12);
   --font-display: 'Inter Tight', 'Inter', system-ui, sans-serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -52,7 +51,7 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--ink);
 }
 
 ::-webkit-scrollbar {
@@ -118,10 +117,6 @@ button {
   letter-spacing: -0.022em;
 }
 
-.h-serif {
-  font-style: italic;
-  font-weight: 300;
-}
 
 .section-head {
   display: flex;
@@ -178,7 +173,7 @@ button {
   z-index: -1;
 }
 .btn:hover {
-  color: #ffffff;
+  color: var(--ink);
   border-color: var(--accent);
 }
 .btn:hover::before {
@@ -187,7 +182,7 @@ button {
 .btn--solid {
   background: var(--accent);
   border-color: var(--accent);
-  color: #ffffff;
+  color: var(--ink);
 }
 .btn--solid::before {
   background: var(--accent-bright);
@@ -199,12 +194,27 @@ button {
   position: fixed;
   inset: 0;
   z-index: 4000;
-  background: var(--ink);
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
+}
+.preloader__panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.5%;
+  background: var(--ink);
+}
+.preloader__panel--top {
+  top: 0;
+  border-bottom: 1px solid var(--line);
+}
+.preloader__panel--bottom {
+  bottom: 0;
 }
 .preloader__inner {
+  position: relative;
   text-align: center;
 }
 .preloader__word {
@@ -1410,8 +1420,8 @@ html.has-cursor button {
 }
 .cursor-ring i.is-active {
   transform: scale(1.7);
-  border-color: var(--bone);
-  background: rgba(250, 250, 250, 0.06);
+  border-color: var(--accent-bright);
+  background: rgba(47, 168, 116, 0.08);
 }
 
 .lightfield {

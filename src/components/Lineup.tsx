@@ -33,6 +33,13 @@ function TiltCard({ car, index }: { car: CarModel; index: number }) {
   const accentVar = { '--accent': car.accent } as Record<string, string>
 
   return (
+    // entrance lives on the wrapper so it never fights the hover-tilt springs
+    <motion.div
+      initial={reduced ? { opacity: 0 } : { opacity: 0, y: 70, rotateY: -16, transformPerspective: 1100 }}
+      whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0, rotateY: 0 }}
+      viewport={{ once: true, margin: '-8% 0px' }}
+      transition={{ duration: 1.0, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+    >
     <motion.div
       ref={ref}
       className="tilt-card"
@@ -40,10 +47,6 @@ function TiltCard({ car, index }: { car: CarModel; index: number }) {
       style={{ ...accentVar, ...(reduced ? {} : { rotateX, rotateY, transformPerspective: 1000 }) }}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      initial={{ opacity: 0, y: 70 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-8% 0px' }}
-      transition={{ duration: 0.95, delay: index * 0.14, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="tilt-card__media">
         <SmartImage
@@ -73,6 +76,7 @@ function TiltCard({ car, index }: { car: CarModel; index: number }) {
           ))}
         </div>
       </div>
+    </motion.div>
     </motion.div>
   )
 }
