@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame, useThree } from '@react-three/fiber'
 import { ContactShadows, Environment, Lightformer, MeshReflectorMaterial, PerspectiveCamera } from '@react-three/drei'
-import { explodeOf, smooth, type SceneDrive } from './explode'
+import { driveOf, explodeOf, smooth, type SceneDrive } from './explode'
 
 /* ------------------------------------------------------------------ */
 /*  materials & geometry                                               */
@@ -289,13 +289,30 @@ function ConceptCar({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
     s.my = THREE.MathUtils.damp(s.my, my, 4.4, dt)
 
     const e = s.e
-    const sweep = -0.62 + p * Math.PI * 2 + Math.sin(three.clock.elapsedTime * 0.16) * 0.05
+    const d = driveOf(p)
+    const sweep = -0.62 + p * Math.PI * 1.7 + Math.sin(three.clock.elapsedTime * 0.16) * 0.05
+    // once rebuilt, the car steers onto its exit heading and leaves the stage
+    // (rotation.y = EXIT sends local +x forward along (cos, 0, -sin): out
+    //  screen-right, well clear of the camera)
+    const EXIT = 0.49
+    const headingBlend = smooth(0.6, 0.74, p)
+    const rotTarget = sweep * (1 - headingBlend) + EXIT * headingBlend
 
     if (root.current) {
-      root.current.rotation.y = THREE.MathUtils.damp(root.current.rotation.y, sweep + s.mx * 0.5, 5.6, dt)
-      root.current.rotation.x = s.my * 0.1
-      const beauty = 1 + smooth(0.86, 1, p) * 0.05
-      root.current.scale.setScalar(beauty)
+      root.current.rotation.y = THREE.MathUtils.damp(
+        root.current.rotation.y,
+        rotTarget + s.mx * 0.5 * (1 - d),
+        5.6,
+        dt,
+      )
+      root.current.rotation.x = s.my * 0.1 * (1 - d)
+      // squat on launch, settle as it runs
+      root.current.rotation.z = smooth(0.72, 0.8, p) * (1 - smooth(0.84, 0.94, p)) * 0.045
+      // accelerate out of frame along the heading
+      const run = Math.pow(d, 2.1) * 17
+      root.current.position.x = run * Math.cos(EXIT)
+      root.current.position.z = run * -Math.sin(EXIT)
+      root.current.position.y = -0.42
     }
 
     if (body.current) body.current.position.y = e * 1.5
@@ -324,7 +341,7 @@ function ConceptCar({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
       }
       const spin = wheelSpin.current[i]
       // far-side wheel groups are mirrored about Y — compensate so both sides roll forward
-      if (spin) spin.rotation.z -= dt * (1 - e) * 1.6 * Math.sign(w.z)
+      if (spin) spin.rotation.z -= dt * ((1 - e) * 1.6 + d * 30) * Math.sign(w.z)
       const corner = susp.current[i]
       if (corner) {
         const side = Math.sign(w.z)
@@ -428,6 +445,7 @@ function Rig({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
     const { p, mx, my } = drive.current
     const dt = Math.min(delta, 0.05)
     const e = explodeOf(p)
+    const d = driveOf(p)
     const camera = cam.current
     if (!camera) return
     if (camera.fov !== fov) {
@@ -438,9 +456,30 @@ function Rig({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
     camera.position.x = THREE.MathUtils.damp(camera.position.x, 5.6 + mx * 0.9 + dolly * 0.3, 4, dt)
     camera.position.y = THREE.MathUtils.damp(camera.position.y, 1.85 + e * 1.5 + my * 0.5, 4, dt)
     camera.position.z = THREE.MathUtils.damp(camera.position.z, 6.3 + dolly + e * 1.1, 4, dt)
-    camera.lookAt(0, 0.22 + e * 0.5, 0)
+    // pan after the departing car, then let it outrun the frame
+    camera.lookAt(d * 2.8, 0.22 + e * 0.5, d * -1.5)
   })
   return <PerspectiveCamera ref={cam} makeDefault fov={31} position={[5.6, 1.85, 6.3]} near={0.1} far={60} />
+}
+
+/** house lights follow the act: full for the build, down as the car departs */
+function StageLights({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
+  const key = useRef<THREE.SpotLight>(null)
+  const fill = useRef<THREE.SpotLight>(null)
+  const warm = useRef<THREE.SpotLight>(null)
+  useFrame(() => {
+    const dim = 1 - driveOf(drive.current.p) * 0.85
+    if (key.current) key.current.intensity = 120 * dim
+    if (fill.current) fill.current.intensity = 60 * dim
+    if (warm.current) warm.current.intensity = 26 * dim
+  })
+  return (
+    <>
+      <spotLight ref={key} position={[6, 9, 4]} angle={0.5} penumbra={0.8} intensity={120} color="#fff2da" castShadow={false} />
+      <spotLight ref={fill} position={[-7, 4, -6]} angle={0.6} penumbra={1} intensity={60} color="#d8deea" />
+      <spotLight ref={warm} position={[-5, 2, 7]} angle={0.7} penumbra={1} intensity={26} color="#ffd9c2" />
+    </>
+  )
 }
 
 export default function AureliusScene({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
@@ -448,9 +487,7 @@ export default function AureliusScene({ drive }: { drive: React.MutableRefObject
     <>
       <Rig drive={drive} />
       <ambientLight intensity={0.25} />
-      <spotLight position={[6, 9, 4]} angle={0.5} penumbra={0.8} intensity={120} color="#fff2da" castShadow={false} />
-      <spotLight position={[-7, 4, -6]} angle={0.6} penumbra={1} intensity={60} color="#d8deea" />
-      <spotLight position={[-5, 2, 7]} angle={0.7} penumbra={1} intensity={26} color="#ffd9c2" />
+      <StageLights drive={drive} />
 
       <ConceptCar drive={drive} />
 
@@ -461,15 +498,15 @@ export default function AureliusScene({ drive }: { drive: React.MutableRefObject
           blur={[240, 80]}
           resolution={512}
           mixBlur={0.85}
-          mixStrength={1.25}
+          mixStrength={0.9}
           mirror={0.5}
           roughness={0.85}
           depthScale={0.45}
           minDepthThreshold={0.4}
           maxDepthThreshold={1.2}
-          color="#06080b"
-          metalness={0.25}
-          envMapIntensity={0.35}
+          color="#04060a"
+          metalness={0.15}
+          envMapIntensity={0.25}
         />
       </mesh>
       <mesh rotation-x={-Math.PI / 2} position={[0, -0.428, 0]}>
@@ -479,12 +516,12 @@ export default function AureliusScene({ drive }: { drive: React.MutableRefObject
       <ContactShadows position={[0, -0.43, 0]} opacity={0.62} scale={13} blur={2.4} far={3.4} resolution={512} color="#000000" />
 
       <Environment resolution={256} frames={1}>
-        <Lightformer intensity={5} position={[0, 4, 0]} rotation-x={Math.PI / 2} scale={[9, 4, 1]} color="#fff4dd" />
+        <Lightformer intensity={5} position={[0, 4, 0]} rotation-x={Math.PI / 2} scale={[9, 4, 1]} color="#eef1f6" />
         <Lightformer intensity={3} position={[-5, 1.6, 3.5]} rotation-y={Math.PI / 3.2} scale={[4.5, 1.1, 1]} color="#eef0f4" />
         <Lightformer intensity={3} position={[5, 1.4, -3.5]} rotation-y={-Math.PI / 3.2} scale={[4.5, 1.1, 1]} color="#dfe4ee" />
         <Lightformer intensity={1.6} position={[0, 1.2, 5.4]} scale={[7, 2.2, 1]} color="#ffffff" />
         <Lightformer intensity={1.1} position={[0, 0.6, -5.6]} rotation-y={Math.PI} scale={[7, 1.6, 1]} color="#f2efe9" />
-        <Lightformer intensity={1.2} position={[-5.4, 0.7, 1.8]} rotation-y={Math.PI / 2.4} scale={[3.4, 0.9, 1]} color="#ffe2c8" />
+        <Lightformer intensity={0.9} position={[-5.4, 0.7, 1.8]} rotation-y={Math.PI / 2.4} scale={[3.4, 0.9, 1]} color="#ffe9d8" />
       </Environment>
     </>
   )

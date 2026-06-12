@@ -91,17 +91,17 @@ export default function Engineering() {
     return () => window.removeEventListener('mousemove', onMove)
   }, [reduced])
 
-  /* HUD windows */
-  const headOpacity = useTransform(p, [0.0, 0.05, 0.1, 0.16], [0, 1, 1, 0])
-  const ph0 = useTransform(p, [0.05, 0.1, 0.17, 0.22], [0, 1, 1, 0])
-  const ph1 = useTransform(p, [0.24, 0.29, 0.4, 0.45], [0, 1, 1, 0])
-  const ph2 = useTransform(p, [0.47, 0.52, 0.6, 0.65], [0, 1, 1, 0])
-  const ph3 = useTransform(p, [0.67, 0.72, 0.84, 0.9], [0, 1, 1, 0])
-  const finale = useTransform(p, [0.91, 0.97], [0, 1])
+  /* HUD windows — apart on arrival, inspected, rebuilt, then driven out */
+  const headOpacity = useTransform(p, [0.0, 0.03, 0.08, 0.13], [0, 1, 1, 0])
+  const ph0 = useTransform(p, [0.13, 0.17, 0.24, 0.28], [0, 1, 1, 0])
+  const ph1 = useTransform(p, [0.29, 0.33, 0.4, 0.44], [0, 1, 1, 0])
+  const ph2 = useTransform(p, [0.45, 0.49, 0.56, 0.6], [0, 1, 1, 0])
+  const ph3 = useTransform(p, [0.61, 0.65, 0.71, 0.75], [0, 1, 1, 0])
+  const finale = useTransform(p, [0.78, 0.84], [0, 1])
   const phaseOpacity = [ph0, ph1, ph2, ph3]
 
   const disassembly = useTransform(p, (v) => `${String(Math.round(explodeOf(v) * 100)).padStart(3, '0')}%`)
-  const hintOpacity = useTransform(p, [0.03, 0.08, 0.88, 0.95], [0, 1, 1, 0])
+  const hintOpacity = useTransform(p, [0.03, 0.08, 0.62, 0.7], [0, 1, 1, 0])
 
   if (reduced) {
     // calm variant — the anatomy as an editorial spread
@@ -163,9 +163,9 @@ export default function Engineering() {
         ))}
 
         <motion.div className="engineering__phase" style={{ opacity: finale }}>
-          <span className="idx">Imperator GT</span>
-          <h3>Whole again.</h3>
-          <p>From two hundred and six components to a single intent.</p>
+          <span className="idx">Phase 05, Departure</span>
+          <h3>Built. Fired. Gone.</h3>
+          <p>Every Imperator leaves the atelier under its own power, and it does not look back.</p>
         </motion.div>
 
         <motion.div className="engineering__readout" style={{ opacity: hintOpacity }}>
@@ -176,7 +176,7 @@ export default function Engineering() {
         </motion.div>
 
         <motion.div className="engineering__hint" style={{ opacity: hintOpacity }}>
-          Scroll to disassemble
+          Scroll, watch it rebuild
         </motion.div>
       </div>
     </section>

@@ -14,5 +14,9 @@ export const smooth = (a: number, b: number, x: number) => {
   return t * t * (3 - 2 * t)
 }
 
-/** disassembly amount across the section: rises, holds, then reassembles */
-export const explodeOf = (p: number) => smooth(0.14, 0.4, p) * (1 - smooth(0.58, 0.84, p))
+/** the act in three movements:
+ *  comes apart on arrival, holds for inspection, rebuilds, then departs */
+export const explodeOf = (p: number) => smooth(0.02, 0.14, p) * (1 - smooth(0.34, 0.62, p))
+
+/** departure: wheels up, squat, and out of frame */
+export const driveOf = (p: number) => smooth(0.72, 0.96, p)

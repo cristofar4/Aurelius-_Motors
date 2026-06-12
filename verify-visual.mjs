@@ -144,14 +144,14 @@ if (card) {
   await shot('07-lineup-tilt')
 }
 
-await scrollToProgress('#engineering', 0.05, 2600) // let the three.js chunk load + compile
-await shot('08-engineering-intro')
-await scrollToProgress('#engineering', 0.3, 2000)
-await shot('09-engineering-exploding')
+await scrollToProgress('#engineering', 0.22, 3000) // let the three.js chunk load + compile
+await shot('08-engineering-parts')
 await scrollToProgress('#engineering', 0.5, 2000)
-await shot('10-engineering-exploded')
-await scrollToProgress('#engineering', 0.95, 2000)
-await shot('11-engineering-reassembled')
+await shot('09-engineering-rebuilding')
+await scrollToProgress('#engineering', 0.82, 2000)
+await shot('10-engineering-launch')
+await scrollToProgress('#engineering', 0.97, 2200)
+await shot('11-engineering-gone')
 
 await scrollTo((await sectionTop('#interior')) - 40, 2400)
 await shot('12-interior')
