@@ -1421,3 +1421,9 @@ html.has-cursor button {
   pointer-events: none;
   mix-blend-mode: screen;
 }
+
+@media (max-width: 700px) {
+  .engineering__readout {
+    display: none;
+  }
+}

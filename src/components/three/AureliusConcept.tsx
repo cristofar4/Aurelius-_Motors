@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { ContactShadows, Environment, Lightformer, MeshReflectorMaterial, PerspectiveCamera } from '@react-three/drei'
 import { explodeOf, smooth, type SceneDrive } from './explode'
 
@@ -419,16 +419,25 @@ function ConceptCar({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
 
 function Rig({ drive }: { drive: React.MutableRefObject<SceneDrive> }) {
   const cam = useRef<THREE.PerspectiveCamera>(null)
+  const size = useThree((s) => s.size)
+  // narrow viewports need a wider lens and more distance to hold the car
+  const portrait = size.height > size.width
+  const fov = portrait ? 39 : 31
+  const dolly = portrait ? 2.6 : 0
   useFrame((_, delta) => {
     const { p, mx, my } = drive.current
     const dt = Math.min(delta, 0.05)
     const e = explodeOf(p)
     const camera = cam.current
     if (!camera) return
+    if (camera.fov !== fov) {
+      camera.fov = fov
+      camera.updateProjectionMatrix()
+    }
     // dolly out and rise as the car comes apart, so the full stack stays framed
-    camera.position.x = THREE.MathUtils.damp(camera.position.x, 5.6 + mx * 0.9, 4, dt)
+    camera.position.x = THREE.MathUtils.damp(camera.position.x, 5.6 + mx * 0.9 + dolly * 0.3, 4, dt)
     camera.position.y = THREE.MathUtils.damp(camera.position.y, 1.85 + e * 1.5 + my * 0.5, 4, dt)
-    camera.position.z = THREE.MathUtils.damp(camera.position.z, 6.3 + e * 1.1, 4, dt)
+    camera.position.z = THREE.MathUtils.damp(camera.position.z, 6.3 + dolly + e * 1.1, 4, dt)
     camera.lookAt(0, 0.22 + e * 0.5, 0)
   })
   return <PerspectiveCamera ref={cam} makeDefault fov={31} position={[5.6, 1.85, 6.3]} near={0.1} far={60} />
