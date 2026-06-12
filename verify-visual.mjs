@@ -14,35 +14,61 @@ const BASE = process.env.PREVIEW_URL ?? 'http://localhost:4848/'
 const OUT = '/tmp/aurelius-shots'
 mkdirSync(OUT, { recursive: true })
 
-// hue derived from the photo id, so screenshots preview the page's colour
-// rhythm even though the real photographs can't load inside the sandbox
-const hueOf = (s) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7)
-const standIn = (label) => {
-  const h = hueOf(label)
-  return `<?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
-  <defs>
-    <radialGradient id="g" cx="50%" cy="62%" r="80%">
-      <stop offset="0%" stop-color="hsl(${h}, 48%, 30%)"/>
-      <stop offset="52%" stop-color="hsl(${(h + 24) % 360}, 42%, 15%)"/>
-      <stop offset="100%" stop-color="hsl(${h}, 30%, 6%)"/>
-    </radialGradient>
-    <linearGradient id="s" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="hsl(${(h + 40) % 360}, 70%, 55%)" stop-opacity="0.55"/>
-      <stop offset="100%" stop-color="hsl(${h}, 70%, 45%)" stop-opacity="0.1"/>
-    </linearGradient>
-  </defs>
-  <rect width="1600" height="1000" fill="url(#g)"/>
-  <ellipse cx="800" cy="300" rx="700" ry="220" fill="hsl(${(h + 50) % 360}, 60%, 52%)" opacity="0.16"/>
-  <path d="M300 640 q120 -110 360 -120 q150 -60 330 -55 q200 6 290 80 q120 18 150 95 l-40 18 q-490 30 -1050 8 z"
-        fill="hsl(${h}, 22%, 12%)" stroke="url(#s)" stroke-width="4"/>
-  <circle cx="520" cy="668" r="58" fill="#0c0c0e" stroke="#c8a45c" stroke-opacity="0.6" stroke-width="6"/>
-  <circle cx="1150" cy="668" r="58" fill="#0c0c0e" stroke="#c8a45c" stroke-opacity="0.6" stroke-width="6"/>
-  <text x="800" y="850" text-anchor="middle" font-family="Georgia, serif" font-size="30"
-        fill="#e9d7ae" opacity="0.85">media stand-in — real photo loads outside sandbox</text>
-  <text x="800" y="895" text-anchor="middle" font-family="Georgia, serif" font-size="22"
-        fill="#f2efe9" opacity="0.5">${label}</text>
+// Real automotive photographs (fetched from public GitHub repos) stand in for
+// the blocked CDNs so screenshots show true imagery. Production keeps the
+// verified royalty-free Unsplash/Pexels URLs — these files never ship.
+import { readFileSync } from 'node:fs'
+const P = '/tmp/realcars'
+const img = (f) => readFileSync(`${P}/${f}`)
+const SHOTS = {
+  aston: img('supercar.jpg'),
+  lamboRun: img('lambo1.jpg'),
+  lamboShow: img('lambo2.jpg'),
+  f8: img('ferrari2.jpg'),
+  rolls: img('rolls1.jpg'),
+  duskRow: img('luxbg.jpg'),
+}
+// AMG interior — cropped via SVG viewBox to remove a dealer watermark
+const interiorB64 = readFileSync(`${P}/interior2.jpg`).toString('base64')
+const INTERIOR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 230 1080 500">
+  <image href="data:image/jpeg;base64,${interiorB64}" width="1080" height="799" x="0" y="0"/>
 </svg>`
+
+const ID_MAP = [
+  ['photo-1511919884226', 'aston'],
+  ['photo-1503376780353', 'aston'],
+  ['photo-1605559424843', 'aston'],
+  ['photo-1494976388531', 'aston'],
+  ['photo-1477959858617', 'aston'],
+  ['photo-1544636331', 'lamboShow'],
+  ['photo-1563720223185', 'lamboShow'],
+  ['photo-1617654112368', 'lamboShow'],
+  ['photo-1551522435', 'lamboShow'],
+  ['photo-1533473359331', 'lamboRun'],
+  ['photo-1525609004556', 'lamboRun'],
+  ['photo-1542362567', 'lamboRun'],
+  ['photo-1553440569', 'lamboRun'],
+  ['photo-1552519507', 'f8'],
+  ['photo-1583121274602', 'f8'],
+  ['photo-1560958089', 'f8'],
+  ['photo-1492144534655', 'f8'],
+  ['photo-1542282088', 'rolls'],
+  ['photo-1607860108855', 'rolls'],
+  ['photo-1549317661', 'duskRow'],
+  ['photo-1519501025264', 'duskRow'],
+  ['photo-1502920514313', 'duskRow'],
+  ['photo-1555215695', 'duskRow'],
+  ['photo-1502877338535', 'duskRow'],
+]
+const INTERIOR_IDS = ['photo-1606664515524', 'photo-1514316454349', 'photo-1489824904134',
+  'photo-1619642751034', 'photo-1627993358055', 'photo-1603386329225',
+  'photo-1486262715619', 'photo-1520340356584']
+
+const standInFor = (path) => {
+  if (INTERIOR_IDS.some((id) => path.startsWith(id)))
+    return { contentType: 'image/svg+xml', body: INTERIOR_SVG }
+  const hit = ID_MAP.find(([id]) => path.startsWith(id))
+  return { contentType: 'image/jpeg', body: hit ? SHOTS[hit[1]] : SHOTS.duskRow }
 }
 
 const errors = []
@@ -50,8 +76,8 @@ const browser = await chromium.launch({ args: ['--enable-unsafe-swiftshader'] })
 const page = await browser.newPage({ viewport: { width: 1600, height: 900 }, ignoreHTTPSErrors: true })
 
 await page.route('**images.unsplash.com/**', (route) => {
-  const id = new URL(route.request().url()).pathname.slice(1, 24)
-  route.fulfill({ contentType: 'image/svg+xml', body: standIn(id) })
+  const path = new URL(route.request().url()).pathname.slice(1)
+  route.fulfill(standInFor(path))
 })
 await page.route('**videos.pexels.com/**', (route) => route.abort())
 await page.route('**assets.mixkit.co/**', (route) => route.abort())
@@ -127,7 +153,7 @@ await shot('10-engineering-exploded')
 await scrollToProgress('#engineering', 0.95, 2000)
 await shot('11-engineering-reassembled')
 
-await scrollTo((await sectionTop('#interior')) - 40)
+await scrollTo((await sectionTop('#interior')) - 40, 2400)
 await shot('12-interior')
 
 await scrollToProgress('.gallery', 0.55, 1800)
